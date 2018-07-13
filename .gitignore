@@ -1,0 +1,5 @@
+*.log
+*.retry
+.vagrant
+**/*.pyc
+__pycache__/

@@ -1,0 +1,10 @@
+---
+- name: Converge
+  hosts: all
+  roles:
+    - role: debian-extra-repositories-helper
+      role_debian_extra_repositories_helper:
+        repositories:
+          add:
+            - url: https://download.docker.com/linux/debian
+              gpg_key_url: https://download.docker.com/linux/debian/gpg

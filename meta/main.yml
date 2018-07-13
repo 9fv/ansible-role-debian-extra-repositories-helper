@@ -1,0 +1,20 @@
+---
+galaxy_info:
+  role_name: debian-extra-repositories-helper
+  author: 9 Février
+  description: Managing extra repositories on Debian.
+  version: 0.1.0
+  min_ansible_version: 2.5
+  license: MIT
+  issue_tracker_url: >
+    https://github.com/9fv/ansible-role-debian-extra-repositories-helper/issues
+
+  platforms:
+    - name: Debian
+      versions:
+        - etch
+        - jessie
+        - stretch
+  galaxy_tags: [linux, system, debian, repository, extra, packages, helper]
+
+dependencies: []

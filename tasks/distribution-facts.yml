@@ -1,0 +1,7 @@
+---
+- name: Set distribution facts
+  set_fact:
+    _os_dist: "{{ ansible_distribution }}"
+    _os_dist_release: "{{ ansible_distribution_release }}"
+    _os_dist_major_version: "{{ ansible_distribution_major_version }}"
+  tags: ["install", "configure"]

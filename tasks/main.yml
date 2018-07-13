@@ -1,0 +1,6 @@
+---
+- import_tasks: distribution-facts.yml
+- import_tasks: role-facts.yml
+  when: "_os_dist == 'Debian'"
+- import_tasks: repositories-add.yml
+  when: "_os_dist == 'Debian'"

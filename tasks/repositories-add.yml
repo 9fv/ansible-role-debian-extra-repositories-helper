@@ -1,0 +1,42 @@
+---
+# Debian
+- name: Check if extra repository is already configured.
+  stat: path={{ item.url }}
+  register: repositories_status
+  with_items:
+    - "{{ repositories_to_add }}"
+
+- name: debug
+  debug:
+    msg: "{{ repositories_status }}"
+  when:
+    - settings is defined
+    - settings.debug
+
+- name: Import GPG key.
+  apt_key:
+    url: "{{ item.item.gpg_key_url }}"
+    state: present
+  with_items:
+    - "{{ repositories_status.results }}"
+  when:
+    - not item.stat.exists
+  ignore_errors: "{{ ansible_check_mode }}"
+
+# {{ ansible_managed }}
+# deb http://nginx.org/packages/mainline/{{ ansible_lsb.id|lower }}/ {{ ansible_lsb.codename|lower }} nginx
+# deb-src http://nginx.org/packages/mainline/{{ ansible_lsb.id|lower }}/ {{ ansible_lsb.codename|lower }} nginx
+- name: "Install extra repository."
+  apt_repository:
+    repo: "{{ item.item.repository }}"
+    filename: "{{ item.item.filename }}"
+    update_cache: true
+    state: present
+  register: result
+  # until: 'item.rc == 0'
+  retries: 5
+  delay: 10
+  with_items:
+    - "{{ repositories_status.results }}"
+  when:
+    - not item.stat.exists
