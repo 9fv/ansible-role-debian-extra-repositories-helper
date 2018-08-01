@@ -1,7 +1,6 @@
 ---
 - name: Set role facts
   set_fact:
-    settings: "{{ role_debian_extra_repositories_helper.settings }}"
-    repositories_to_add: "{{ role_debian_extra_repositories_helper.repositories.add }}"
-    repositories_to_remove: "{{ role_debian_extra_repositories_helper.repositories.remove }}"
+    settings: "{{ role_debian_extra_repositories_helper_settings.defaults }}"
+    repositories: "{{ role_debian_extra_repositories_helper.repositories }}"
   tags: ["install", "configure"]

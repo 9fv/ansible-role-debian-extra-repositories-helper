@@ -1,10 +1,23 @@
 ---
 # Debian
+- name: Ensure gpg is installed
+  apt:
+    name: gpg
+    state: present
+    update_cache: true
+
+- name: Ensure apt-transport-https is installed
+  apt:
+    name: apt-transport-https
+    state: present
+    update_cache: true
+
 - name: Check if extra repository is already configured.
   stat: path={{ item.url }}
   register: repositories_status
+  when: item.state != 'absent'
   with_items:
-    - "{{ repositories_to_add }}"
+    - "{{ repositories }}"
 
 - name: debug
   debug:
@@ -23,15 +36,15 @@
     - not item.stat.exists
   ignore_errors: "{{ ansible_check_mode }}"
 
-# {{ ansible_managed }}
+
 # deb http://nginx.org/packages/mainline/{{ ansible_lsb.id|lower }}/ {{ ansible_lsb.codename|lower }} nginx
 # deb-src http://nginx.org/packages/mainline/{{ ansible_lsb.id|lower }}/ {{ ansible_lsb.codename|lower }} nginx
 - name: "Install extra repository."
   apt_repository:
-    repo: "{{ item.item.repository }}"
-    filename: "{{ item.item.filename }}"
+    repo: "deb {{ item.item.url }} {{ item.item.codename }} {{ item.item.branch }}"
+    filename: "{{ item.item.name }}"
     update_cache: true
-    state: present
+    state: "{{ item.item.state }}"
   register: result
   # until: 'item.rc == 0'
   retries: 5

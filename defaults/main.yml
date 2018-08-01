@@ -1,7 +1,7 @@
 ---
 role_debian_extra_repositories_helper:
-  settings:
+  repositories: []
+
+role_debian_extra_repositories_helper_settings:
+  defaults:
     debug: false
-  repositories:
-    add: []
-    remove: []

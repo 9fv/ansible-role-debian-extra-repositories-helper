@@ -2,9 +2,13 @@
 - name: Converge
   hosts: all
   roles:
-    - role: debian-extra-repositories-helper
-      role_debian_extra_repositories_helper:
-        repositories:
-          add:
-            - url: https://download.docker.com/linux/debian
+    - role: ansible-role-debian-extra-repositories-helper
+      vars:
+        role_debian_extra_repositories_helper:
+          repositories:
+            - name: docker
+              url: https://download.docker.com/linux/debian
               gpg_key_url: https://download.docker.com/linux/debian/gpg
+              branch: stable
+              codename: stretch
+              state: present
